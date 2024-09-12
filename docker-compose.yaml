@@ -1,0 +1,36 @@
+services:
+  api1:
+    build: ./APP1
+    ports:
+      - "3001:3001"
+    networks:
+      - api-network
+
+  api2:
+    build: ./APP2
+    ports:
+      - "3002:3002"
+    networks:
+      - api-network
+
+  api3:
+    build: ./APP3
+    ports:
+      - "3003:3003"
+    networks:
+      - api-network
+
+  nginx:
+    build: ./proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - api1
+      - api2
+      - api3
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge
